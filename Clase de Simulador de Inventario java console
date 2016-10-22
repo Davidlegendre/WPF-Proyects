@@ -7,7 +7,7 @@ package pkg1.inventario;
 import java.util.Scanner;
 /**
  *
- * @author DAVID
+ * @author DAVID FERNANDO LEGENDRE ALBITES
  */
 public class OperacioneData {
     static Scanner sc = new Scanner(System.in);
