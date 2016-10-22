@@ -1,0 +1,262 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pkg1.inventario;
+import java.util.Scanner;
+/**
+ *
+ * @author DAVID
+ */
+public class OperacioneData {
+    static Scanner sc = new Scanner(System.in);
+    static Object[] Data;
+    public OperacioneData()
+    {
+    
+    }
+    public void Insertar()
+    {
+        String[][] Nuevodatos = new String[1][4];
+        String cod;
+        do{
+        System.out.print("Ingrese el Código: ");
+        cod = sc.nextLine();
+        if(comprobar(cod) != false)
+        {
+        System.out.println("Ese Codigo ya Existe.");
+        }
+        }
+        while(comprobar(cod) != false);
+        Nuevodatos[0][0] = cod;
+        System.out.print("Ingrese la Descripción: ");
+        Nuevodatos[0][1] = sc.nextLine();
+        System.out.print("Ingrese la cantidad: ");
+        Nuevodatos[0][2] = sc.nextLine();
+        System.out.print("Ingrese el departamento perteneciente: ");
+        Nuevodatos[0][3] = sc.nextLine();
+        arreDin(Nuevodatos);
+        System.out.println("Datos ingresado con exito");
+    }
+    
+    private boolean comprobar(String Id)
+    {
+        boolean yesno = false;
+        if(Data==null)
+        {        
+    yesno = false;
+        }else
+        {
+            for (Object Data1 : Data) 
+            {
+                String[][] jo = (String[][]) Data1;
+                if(Id == null ? jo[0][0] == null : Id.equals(jo[0][0]))
+                {
+                    yesno = true;
+                    break;
+                }  
+            }
+        }
+    return yesno;
+    }
+    
+    public void MostrarTodo()
+    {
+        if(Data == null)
+        {
+        System.out.println("No hay registros");
+        }else
+        {
+         System.out.println("Código\t|Descripción\t|Cantidad\t|Departamento");
+            for (Object Data1 : Data) {
+                String[][] Obje = (String[][]) Data1;
+                System.out.print(Obje[0][0] + "\t|" + Obje[0][1] + "\t|" + Obje[0][2] + "\t|" + Obje[0][3]);
+                System.out.println();
+            }
+        }   
+    }
+    
+    public void Eliminartodo()
+    {
+        if(Data == null)
+        {
+        System.out.println("No hay registros");
+        }else{
+           String op = null;
+            do{
+                System.out.println("Desea Eliminar todos los registros?");
+                System.out.print("Y or N?: ");
+                op = sc.nextLine();
+              }while(!"Y".equals(op) && !"N".equals(op));
+              if("Y".equals(op))
+              {
+                Data = null;
+                System.out.println("Datos eliminados con exito");
+              }     
+        }
+    }
+    
+    private void arreDin(String Nuevodato[][]){ //metodo para ingresar numeros a cierto arreglo para comparar si los valores se repiten        
+        Object tem[]; //arreglo temporal
+ 
+        if(Data==null){//cuando el arreglo a comparar esta vacio            
+            Data = new Object[1];
+            for(int i=0; i<Data.length; i++)
+            Data[i]=Nuevodato;            
+        }
+        else{//cuando el arreglo no esta vacio
+            tem = new Object[Data.length];
+            System.arraycopy(Data, 0, tem, 0, Data.length);
+            Data=null;//eliminacion de todos los datos del arreglo de comparacion
+            Data = new Object[tem.length+1];//creando el nuevo arreglo con un campo adicional
+ 
+            for(int i=0; i<Data.length; i++){
+                if(i<tem.length){//reacomodando datos desde el arreglo temporal al arreglo de comparacion
+                    Data[i]=tem[i];
+                }
+                else
+                    Data[i]=Nuevodato;//agregando el nuevo dato en el espacio que no habia
+            }            
+        }
+        tem=null;
+    }
+    
+    private boolean comprobarParamod(String Id,int pos)
+    {
+        boolean yesno = false;
+            for (int x = 0; x<Data.length; x++)
+            {
+                String[][] jo = (String[][])Data[x];
+                if((jo[0][0] == null ? Id == null : jo[0][0].equals(Id)) && x != pos)
+                {
+                    yesno = true;
+                    break;
+                }  
+            }
+    return yesno;
+    }
+    
+    public void ModUno()
+    {
+    if(Data == null)
+    {
+    System.out.println("No hay Registros");
+    }
+    else
+    {
+     MostrarTodo();
+    System.out.print("Escriba el codigo del cual desea Modificar: ");
+    String cod = sc.nextLine();
+    if(comprobar(cod) != true)
+    {
+    System.out.println("No existe ese registro");
+    }else
+    {
+    for (int x = 0; x<Data.length;x++) 
+    {
+            String[][] Dods = (String[][])Data[x];
+            if(Dods[0][0] == null ? cod == null : Dods[0][0].equals(cod))
+            {
+                String[][] Nuevodatos = new String[1][4];
+                String code;
+        do{
+        System.out.print("Nuevo Código: ");
+        code = sc.nextLine();
+        if(comprobarParamod(code,x) != false)
+        {
+          System.out.println("Ese Codigo ya Existe.");
+        }
+        }
+        while(comprobarParamod(code,x) != false);
+        Nuevodatos[0][0] = code;
+        System.out.print("Nueva Descripción: ");
+        Nuevodatos[0][1] = sc.nextLine();
+        System.out.print("Nueva cantidad: ");
+        Nuevodatos[0][2] = sc.nextLine();
+        System.out.print("Nuevo departamento perteneciente: ");
+        Nuevodatos[0][3] = sc.nextLine();
+        Data[x] = Nuevodatos;
+                break;
+            }   
+    }
+                System.out.println("Registro Modificado.");
+    }
+    }
+    }
+    
+    public void Eliminaruno()
+    {
+    if(Data== null)
+    {
+    System.out.println("No hay Registros");
+    }else
+    {
+    MostrarTodo();
+    System.out.print("Escriba el codigo del cual desea eliminar: ");
+    String cod = sc.nextLine();
+    if(comprobar(cod) != true)
+    {
+    System.out.println("No existe ese registro");
+    }else
+    {
+    Object[] tem = new Object[Data.length - 1];
+    int cam = 0;
+    for (int x = 0; x<Data.length;x++) 
+    {
+            String[][] Dods = (String[][])Data[x];
+            if(Dods[0][0] == null ? cod == null : Dods[0][0].equals(cod))
+            {
+                Data[x] = "";
+                cam = x;
+                break;
+            }   
+    }
+     for(int y = 0; y<Data.length; y++)
+                {
+                    if(Data[y] != "")
+                    {
+                        if(y > cam)
+                        {
+                        if(tem[y - 1] == null)
+                        {
+                        tem[y - 1] = Data[y];
+                        }
+                        }
+                        else
+                        {
+                            tem[y] = Data[y];
+                        }
+                    }
+                }
+                Data = new Object[tem.length];
+                System.arraycopy(tem, 0,Data, 0, tem.length);
+                if(Data.length < 1)
+                {
+                  Data = null;
+                }
+                System.out.println("Registro eliminado.");
+    }
+    }
+    }
+    
+    public void BuscarUno()
+    {
+    if(Data == null)
+    {
+    System.out.println("No hay Registros");
+    }else
+    {
+        System.out.print("Buscar: ");
+        String texto = sc.nextLine();
+        System.out.println("Código\t|Descripción\t|Cantidad\t|Departamento");
+        for (Object Data1 : Data) {
+            String[][] Dods = (String[][]) Data1;
+            if(Dods[0][0].contains(texto) || Dods[0][1].contains(texto) || Dods[0][2].contains(texto) || Dods[0][3].contains(texto))
+            {
+                System.out.print(Dods[0][0] + "\t|" + Dods[0][1] + "\t|" + Dods[0][2] + "\t|" + Dods[0][3]);
+                System.out.println();
+            }   }
+    }
+    }    
+}
