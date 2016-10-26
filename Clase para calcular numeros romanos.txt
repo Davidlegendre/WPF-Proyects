@@ -1,0 +1,77 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package numerosromanos;
+
+/**
+ *
+ * @author DAVID
+ */
+public class operaciones {
+    
+    public boolean Comprobar(String N)
+    {
+        boolean t = true;
+         for (int x = 0; x < N.length(); x++) {
+            switch (N.charAt(x)) {
+                case 'I': t = false; break;
+                case 'X': t = false; break;
+                case 'C': t = false; break;
+                case 'L': t = false; break;
+                case 'D': t = false; break;
+                case 'M': t = false; break;
+                case 'V': t = false; break;
+                default: t = true; break;
+            }        
+        }
+        return t;
+    }
+    
+    public int operar(int[] N)
+    {
+        int d;
+        int res = 0, resta = -1;
+        if(N.length > 1)
+        {
+            for(int x = 0; x < N.length; x++)
+            {
+                if(x != N.length-1&&(N[x] < N[x+1])&&x!=resta)
+                {
+                    res = res + ((N[x] - N[x + 1])*-1);
+                    resta = (x+1);
+                }else
+                {
+                    if(x != resta)
+                    {
+                        res = res + N[x];
+                    }
+                }
+            }
+           d = res;
+        }
+        else
+        {
+            d = N[0];
+        }
+        return d;
+    }
+    
+    public int[] Convertir(String N)
+    {
+        int[] conN = new int[N.length()];
+        for (int x = 0; x < N.length(); x++) {
+            switch (N.charAt(x)) {
+                case 'I': conN[x] = 1; break;
+                case 'X': conN[x] = 10; break;
+                case 'C': conN[x] = 100; break;
+                case 'L': conN[x] = 50; break;
+                case 'D': conN[x] = 500; break;
+                case 'M': conN[x] = 1000; break;
+                case 'V': conN[x] = 5; break;
+            }        
+        }
+        return conN;
+    }
+}
